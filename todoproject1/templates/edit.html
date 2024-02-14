@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post" xmlns="http://www.w3.org/1999/html">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Comfirm</button>
+</form>
+{% endblock %}
