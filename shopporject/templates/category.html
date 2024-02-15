@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.description|truncatewords:155}}
+    {% else %}
+         welcome to diamond store,explore your needs
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+        {{ category.name}}-->ABC Store
+    {% else %}
+         Look into our New collections
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+{% if category %}
+<div>
+    <div class="row my_row_class">
+        <div class="mx-auto">
+        <p><a href="{% url 'shopapp:allProdCat' %}">Our Product Categories</a></p>
+    </div>
+        </div>
+</div>
+{% endif %}
+<div>
+    {% if category %}
+    <img class="my_image" src="{{category.image.url }}" alt="{{category.name}}" width="250" height="250" >
+</div><br>
+<div>
+    <h1 class="text-center my_title"> {{category.name}}</h1>
+    <p class="test-justify">{{category.description}}</p>
+</div>
+{% else %}
+<div>
+    <img class="my_image my_image_padding" src="{% static 'img/banner.png' %}" alt="our products" width="1500" height="350">
+</div><br>
+<div>
+    <h1 class="text-center my_title">Our product Collections</h1>
+    <p class="text-justify">"Welcome to your one-stop shop for all things tech: laptops, smartphones, and tablets!
+At your electronic shopping website, we offer a diverse range of devices to cater to your every need, whether you're a student, a professional, or simply someone who enjoys staying connected and entertained."</p>
+</div>
+{% endif %}
+
+<div class="container">
+    <div class="row mx_auto">
+        {% for product in products.object_list %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-4 xol-lg-4">
+            <div class="card-deck">
+
+            <div class="card text-center" style="min-width:18rem;height:500px;" >
+            <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}"  alt="{{product.name}}" ></a>
+            <div class="card-body">
+                <h4>{{product.name}}</h4>
+                <p>{{product.price}}</p>
+            </div>
+        </div>
+        </div>
+            </div>
+
+        {% endfor %}
+    </div>
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+        {% endif %}<hr>
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm  {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+
+
+        </div>
+
+
+    </div><br>
+</div>
+   {% endblock %}
+
